@@ -5,11 +5,12 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
+using static OpenQA.Selenium.Support.UI.ExpectedConditions;
 
 namespace WebdriverTimeoutsTutorial
 {
     [TestClass]
-    public class UnitTest1
+    public class TimeComparisonTests
     {
         private IWebDriver _driver;
         private Stopwatch _stopwatch;
@@ -36,8 +37,8 @@ namespace WebdriverTimeoutsTutorial
         [TestInitialize]
         public void Setup()
         {
-            //LocalInitialize();
-            BasicInitialize();
+            LocalInitialize();
+            //BasicInitialize();
         }
 
         private void BasicInitialize()
@@ -101,14 +102,14 @@ namespace WebdriverTimeoutsTutorial
 
             //wait.PollingInterval = TimeSpan.FromSeconds(3);
             //wait.IgnoreExceptionTypes(typeof (NoSuchElementException));
-            element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id(FAKE_ID)));
+            element = wait.Until(ElementIsVisible(By.Id(FAKE_ID)));
         }
 
         [TestMethod]
         public void FindElement_WebDriverWait()
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
-            var element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id(FAKE_ID)));
+            var element = wait.Until(ElementIsVisible(By.Id(FAKE_ID)));
         }
 
         [TestMethod]
@@ -120,7 +121,7 @@ namespace WebdriverTimeoutsTutorial
             wait.IgnoreExceptionTypes(typeof(InvalidCastException));
 
             _driver.Navigate().GoToUrl("www.qtptutorial.net/automation-practice");
-            var element = wait.Until(ExpectedConditions.ElementIsVisible(By.Id(FAKE_ID)));
+            var element = wait.Until(ElementIsVisible(By.Id(FAKE_ID)));
         }
 
         [TestMethod]
@@ -146,13 +147,29 @@ namespace WebdriverTimeoutsTutorial
             {
                 _stopwatch.Start();
                 _pageLoadStopwatch.Stop();
-                //var element = _driver.FindElementById(FAKE_ID);
+                var element = _driver.FindElement(By.Id(FAKE_ID));
             }
             catch (Exception e)
             {
                 _stopwatch.Stop();
-                Console.WriteLine($"Time Elapsed for page load:{_pageLoadStopwatch.Elapsed.TotalSeconds}s");
-                Console.WriteLine($"Time Elapsed for element identification:{_stopwatch.Elapsed.TotalSeconds}s");
+                Trace.WriteLine($"Time Elapsed for page load:{_pageLoadStopwatch.Elapsed.TotalSeconds}s");
+                Trace.WriteLine($"Time Elapsed for element identification:{_stopwatch.Elapsed.TotalSeconds}s");
+            }
+        }
+
+        public void TryFind(WebDriverWait wait)
+        {
+            try
+            {
+                _stopwatch.Start();
+                _pageLoadStopwatch.Stop();
+                var element = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(FAKE_ID)));
+            }
+            catch (Exception e)
+            {
+                _stopwatch.Stop();
+                Trace.WriteLine($"Time Elapsed for page load:{_pageLoadStopwatch.Elapsed.TotalSeconds}s");
+                Trace.WriteLine($"Time Elapsed for element identification:{_stopwatch.Elapsed.TotalSeconds}s");
             }
         }
     }

@@ -45,3 +45,9 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.dll
+*.xml
+packages/Selenium.Support.2.53.0/Selenium.Support.2.53.0.nupkg
+*.nupkg
+WebdriverTimeoutsTutorial/bin/Debug/WebdriverTimeoutsTutorial.pdb
+*.cache
