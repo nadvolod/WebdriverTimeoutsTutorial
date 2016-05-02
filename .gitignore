@@ -51,3 +51,4 @@ packages/Selenium.Support.2.53.0/Selenium.Support.2.53.0.nupkg
 *.nupkg
 WebdriverTimeoutsTutorial/bin/Debug/WebdriverTimeoutsTutorial.pdb
 *.cache
+*.pdb
